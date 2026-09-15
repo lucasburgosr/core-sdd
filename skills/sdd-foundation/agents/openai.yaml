@@ -1,0 +1,4 @@
+interface:
+  display_name: "SDD Foundation"
+  short_description: "Define initial SDD artifacts with the user"
+  default_prompt: "Use $sdd-foundation to define this project's initial SDD artifacts."
