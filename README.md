@@ -50,23 +50,3 @@ $minimal-sdd Add monthly budgets and update the necessary artifacts before imple
 ```
 
 Clear task descriptions also allow implicit activation, but explicit invocation is more predictable.
-
-## Installation in Codex
-
-Copy both folders under `~/.agents/skills/`:
-
-```text
-~/.agents/skills/
-├── sdd-foundation/
-└── minimal-sdd/
-```
-
-On Windows, the usual destination is `C:\Users\<user>\.agents\skills\`. You can also version the folders under `.agents/skills/` in a specific repository when the framework should apply only to that project and its team.
-
-Codex detects local skills automatically. Restart it if the skills do not appear after copying them.
-
-## Distribution and evolution
-
-This repository distributes skills as local folders; it does not require a plugin or an MCP server. If you later need catalog-based installation, additional skills, or external connectors, package it as a plugin without changing the responsibilities of these two skills.
-
-When changing a skill, preserve the boundary: `sdd-foundation` establishes the foundation and `minimal-sdd` governs its evolution. Test changes with realistic requests before publishing them.
