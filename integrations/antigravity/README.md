@@ -12,4 +12,4 @@ npx skills add lucasburgosr/core-sdd --skill sdd-foundation --skill minimal-sdd 
 
 Start a new Antigravity conversation in the project and confirm that both skills are available before using them. This is the only documented CoreSDD installation method.
 
-This adapter is not yet marked supported: it still requires the Antigravity verification recorded in T-04.
+This adapter is supported: installation and discovery of both canonical skills have been verified in Antigravity.

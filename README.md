@@ -2,7 +2,7 @@
 
 CoreSDD is a minimal specification-driven development framework for coding agents. It keeps decisions, authorized work, implementation, and verification connected without being coupled to an agent vendor or operating system.
 
-> **Status: experimental.** The portable core is defined; agent adapters require their own validation before they are called supported.
+> **Status: experimental.** The portable core is defined. Pi and Antigravity are supported; other adapters remain unverified.
 
 ## Core method
 
@@ -32,14 +32,14 @@ CoreSDD itself lives in [`skills/`](skills/). Integrations are thin adapters: th
 
 Install the two canonical skills through the project-scoped CLI guide for your agent. The CLI selects the target agent's project directory; manual copying is intentionally not documented.
 
-| Agent | Installation guide |
-| --- | --- |
-| Codex | [Codex](integrations/codex/) |
-| Claude Code | [Claude Code](integrations/claude-code/) |
-| Pi | [Pi](integrations/pi/) |
-| Antigravity | [Antigravity](integrations/antigravity/) |
+| Agent | Status | Installation guide |
+| --- | --- | --- |
+| Codex | Unverified | [Codex](integrations/codex/) |
+| Claude Code | Unverified | [Claude Code](integrations/claude-code/) |
+| Pi | Supported | [Pi](integrations/pi/) |
+| Antigravity | Supported | [Antigravity](integrations/antigravity/) |
 
-An adapter is **supported** only after its discovery path and a representative `sdd-foundation` then `minimal-sdd` workflow have been verified. Until then, it is experimental. The current guides provide installation instructions; they do not yet constitute a verified support claim.
+An adapter is **supported** only after its installation and discovery of both canonical skills have been verified in that agent. Unverified guides provide installation instructions but do not constitute a support claim.
 
 The full adapter material can be found in [`integrations/`](integrations/).
 

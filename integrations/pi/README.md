@@ -12,4 +12,4 @@ npx skills add lucasburgosr/core-sdd --skill sdd-foundation --skill minimal-sdd 
 
 Start Pi in the project and confirm that both skills are available before using them. This is the only documented CoreSDD installation method.
 
-This adapter is not yet marked supported: it still requires the Pi verification recorded in T-04.
+This adapter is supported: installation and discovery of both canonical skills have been verified in Pi.

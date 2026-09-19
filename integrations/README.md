@@ -8,11 +8,11 @@ An adapter may supply discovery metadata, packaging instructions, or agent-speci
 
 Each guide installs the two canonical skills with `npx skills add`. The CLI selects the target agent's project directory; manual copying is intentionally not documented.
 
-| Agent | Guide |
-| --- | --- |
-| Codex | [Codex](codex/) |
-| Claude Code | [Claude Code](claude-code/) |
-| Pi | [Pi](pi/) |
-| Antigravity | [Antigravity](antigravity/) |
+| Agent | Status | Guide |
+| --- | --- | --- |
+| Codex | Unverified | [Codex](codex/) |
+| Claude Code | Unverified | [Claude Code](claude-code/) |
+| Pi | Supported | [Pi](pi/) |
+| Antigravity | Supported | [Antigravity](antigravity/) |
 
-An adapter is **supported** only after its discovery path and a representative `sdd-foundation` then `minimal-sdd` workflow have been verified. Until then, it is experimental or absent.
+An adapter is **supported** only after its installation and discovery of both canonical skills have been verified in that agent. Until then, it is unverified.
