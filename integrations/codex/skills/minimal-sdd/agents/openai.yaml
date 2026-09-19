@@ -1,0 +1,4 @@
+interface:
+  display_name: "Minimal SDD"
+  short_description: "Minimal governance for software projects"
+  default_prompt: "Use minimal-sdd to implement this change while keeping the existing SDD artifacts aligned."

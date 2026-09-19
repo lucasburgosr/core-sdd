@@ -1,11 +1,11 @@
 ---
 name: minimal-sdd
-description: Keeps CONSTITUTION.md, SPEC.md, PLAN.md, TASKS.md, and AGENTS.md aligned while evolving, implementing, or reviewing already-defined software changes without unnecessary bureaucracy.
+description: Keeps CONSTITUTION.md, SPEC.md, PLAN.md, TASKS.md, and repository operating instructions aligned while evolving, implementing, or reviewing already-defined software changes without unnecessary bureaucracy.
 ---
 
 # Minimal SDD
 
-Keep decisions, work, and implementation aligned through five small artifacts. Write artifacts and respond in the language established by the user or repository.
+Keep decisions, work, and implementation aligned through five small artifacts. Write artifacts and respond in the language established by the user or repository. This instruction is portable: do not assume a particular agent, command syntax, shell, filesystem location, or operating system.
 
 ## Guiding principle
 
@@ -15,7 +15,7 @@ For functional changes, use this precedence:
 
 `CONSTITUTION.md` → `SPEC.md` → `PLAN.md` → `TASKS.md` → code and tests
 
-`AGENTS.md` governs how work is performed in the repository and is updated when those instructions change; it is not part of the default chain. If artifacts contradict each other, do not implement until the conflict is resolved with the user or through an explicit decision.
+The repository operating-instructions file governs how work is performed and is updated when those instructions change; it is not part of the default chain. Use the filename or format recognized by the active agent, or `AGENTS.md` when no adapter requires another name. If artifacts contradict each other, do not implement until the conflict is resolved with the user or through an explicit decision.
 
 ## Artifact responsibilities
 
@@ -23,13 +23,13 @@ For functional changes, use this precedence:
 - `SPEC.md`: functional source of truth: problem, goals, scope, flows, business rules, requirements, and acceptance criteria. Do not include technical design unless it is a real requirement.
 - `PLAN.md`: approved technical source of truth: architecture, components, contracts, persistence, integrations, design decisions, risks, and test strategy.
 - `TASKS.md`: authorized executable work, with scope and observable verification where appropriate.
-- `AGENTS.md`: repository operating instructions: reading order, commands, conventions, boundaries, and stop conditions. Do not duplicate functional or technical decisions.
+- A repository instruction file: operating instructions such as reading order, commands, conventions, boundaries, and stop conditions. Use the filename or format recognized by the active agent, or `AGENTS.md` when no adapter requires another name. Do not duplicate functional or technical decisions.
 
 Respect equivalent artifacts that already exist — for example ADRs, a `tasks/` directory, or distributed documentation — instead of imposing names or duplicating sources of truth.
 
 ## Workflow
 
-1. Read the applicable `AGENTS.md`, existing SDD artifacts, and the repository's actual state.
+1. Read the applicable repository operating-instructions file, existing SDD artifacts, and the repository's actual state.
 2. Classify the change by its effect, not by the wording of the request.
 3. State which artifacts you will update, which you will review without changing, and why.
 4. Before implementation, update only the affected sources of truth.
@@ -46,8 +46,8 @@ Ask the user for a decision only when ambiguity changes scope, behavior, data, a
 | Observable behavior, scope, business rule, or acceptance | `SPEC.md`; review `PLAN.md`; adjust `TASKS.md` |
 | Architecture, contract, persistence, provider, or technical design | `PLAN.md`; adjust `TASKS.md`; review `SPEC.md` |
 | Breakdown, order, or dependency of approved work | `TASKS.md` |
-| Governance or methodology rule | `CONSTITUTION.md`; reflect it in `AGENTS.md` only if operating behavior changes |
-| Repository-specific convention or instruction | `AGENTS.md` |
+| Governance or methodology rule | `CONSTITUTION.md`; reflect it in the repository operating-instructions file only if operating behavior changes |
+| Repository-specific convention or instruction | Repository operating-instructions file |
 | Bug fix that restores specified behavior | Code and tests; do not change artifacts by default |
 | Refactor or internal detail with no functional or architectural change | Code and tests; adjust a task only when it affects pending work |
 
