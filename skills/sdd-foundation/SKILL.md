@@ -32,6 +32,8 @@ Create or adjust artifacts in this order. Keep each one brief and the single sou
 4. `TASKS.md`: authorized work units, ordered by dependency when relevant, with observable verification. Do not decompose micro-actions or create tasks solely for document edits.
 5. A repository instruction file: repository-specific operating instructions: reading order, real commands, conventions, verification, and stop conditions. Use the filename or format recognized by the active agent, or `AGENTS.md` when no adapter requires another name. Derive it from the project; do not present generic commands as verified.
 
+When the user chooses a multi-agent workflow, record the agreed planning, implementation, and review roles in the repository operating instructions, and give tasks stable IDs and sufficient acceptance criteria for handoff between sessions. A more capable model plans and reviews; a lower-cost model implements, according to the user's assignments. Do not hardcode model vendors or introduce an orchestrator. Use the review and correction protocol in `minimal-sdd`: one file in `reviews/` per reviewed task scope, with corrections and subsequent review rounds recorded in that same file, and task completion gated by the required review. Create review records when implementation is reviewed, not during foundation drafting.
+
 ## Agreement points
 
 Before moving from functional definition to the technical plan, confirm the decisions that determine the design. Before turning the plan into tasks, confirm that the scope and strategy are sufficient. If the user prefers incremental progress, provide a draft clearly marked as a proposal and request validation only for material decisions.

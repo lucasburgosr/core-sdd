@@ -11,5 +11,3 @@ npx skills add lucasburgosr/core-sdd --skill sdd-foundation --skill minimal-sdd 
 ```
 
 Start a new Codex session in the project and confirm that both skills are available before using them. This is the only documented CoreSDD installation method.
-
-This adapter is not yet verified. Its installation guide does not constitute a support claim.

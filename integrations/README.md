@@ -10,9 +10,7 @@ Each guide installs the two canonical skills with `npx skills add`. The CLI sele
 
 | Agent | Status | Guide |
 | --- | --- | --- |
-| Codex | Unverified | [Codex](codex/) |
-| Claude Code | Unverified | [Claude Code](claude-code/) |
+| Codex | Supported | [Codex](codex/) |
+| Claude Code | Supported | [Claude Code](claude-code/) |
 | Pi | Supported | [Pi](pi/) |
 | Antigravity | Supported | [Antigravity](antigravity/) |
-
-An adapter is **supported** only after its installation and discovery of both canonical skills have been verified in that agent. Until then, it is unverified.
