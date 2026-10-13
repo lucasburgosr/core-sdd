@@ -2,7 +2,7 @@
 
 CoreSDD itself lives in `../skills/`. This directory holds optional adapters for individual agents.
 
-An adapter may supply discovery metadata, packaging instructions, or agent-specific validation. It must not fork or redefine the canonical method. See the adapter contract in [`PLAN.md`](../PLAN.md).
+An adapter may supply discovery metadata, packaging instructions, or agent-specific validation. It must not fork or redefine the canonical method. Global and requirement-specific artifact rules remain in the two canonical skills under [`skills/`](../skills/).
 
 ## Project installation via CLI
 

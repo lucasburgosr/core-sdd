@@ -1,11 +1,11 @@
 ---
 name: sdd-foundation
-description: Collaborates on defining or recovering CONSTITUTION.md, SPEC.md, PLAN.md, TASKS.md, and repository operating instructions for a new or still-ambiguous project without inventing decisions or implementing code by default.
+description: Collaborates on defining or recovering a global system foundation, requirement-specific SPEC.md, PLAN.md, TASKS.md, and repository operating instructions for a new or still-ambiguous project without inventing decisions or implementing code by default.
 ---
 
 # SDD Foundation
 
-Help turn an idea, request, or underdefined repository into a minimal, agreed SDD foundation. The goal is not to produce five documents ceremonially: leave enough traceable, useful decisions for `minimal-sdd` to govern later implementation. This instruction is portable: do not assume a particular agent, command syntax, shell, filesystem location, or operating system.
+Help turn an idea, request, or underdefined repository into a minimal, agreed global foundation and requirement specifications. Leave enough traceable, useful decisions for `minimal-sdd` to govern later implementation; do not produce documents ceremonially. This instruction is portable: do not assume a particular agent, command syntax, shell, filesystem location, or operating system.
 
 ## Scope and boundaries
 
@@ -15,24 +15,29 @@ Do not implement code, run migrations, or change external services unless the us
 
 ## Discover first
 
-1. Read the repository operating-instructions file recognized by the active agent, if present, and existing documentation; inspect the repository's actual state when one exists.
+1. Read the repository operating-instructions file recognized by the active agent, if present, and existing documentation; inspect the repository's actual state when one exists. When documentation is distributed, read the constitution, global specification and plan, and requirement index first, then the active requirement and its relevant dependencies. Do not load every requirement folder routinely.
 2. Distinguish observable facts from hypotheses and pending decisions.
 3. Ask only questions whose answers change scope, behavior, data, architecture, security, cost, or a difficult-to-reverse decision. Group them and offer brief alternatives when useful.
 4. Do not block independent decisions on an open question. Record it in the relevant artifact together with its impact.
 
-When equivalent documentation already exists — for example ADRs, a backlog, a distributed specification, or instructions in subdirectories — propose minimal consolidation or update those sources; do not impose duplicates with the five names.
+When equivalent documentation already exists — for example ADRs, a backlog, a distributed specification, or instructions in subdirectories — propose minimal consolidation or update those sources; do not impose duplicate artifacts. Existing projects may migrate gradually: move each decision or task once, replace its old content with a link, and preserve task IDs, pending work, review links, and verification evidence. During partial migration, identify the exact legacy sections that still own work in the root index; do not copy their tasks into it.
 
 ## Synthesize artifacts
 
-Create or adjust artifacts in this order. Keep each one brief and the single source of truth for its kind of decision.
+Use a global foundation at the root and `specs/REQ-<number>-<name>/` for each independent requirement as the default layout. Create or adjust artifacts in this order. Keep each one brief and the single source of truth for its kind of decision.
 
 1. `CONSTITUTION.md`: durable principles, quality priorities, document hierarchy, and change rules. Include only confirmed, reusable rules; it should change rarely.
-2. `SPEC.md`: problem, users or actors, goals, scope and exclusions, flows, business rules, requirements, and observable acceptance criteria. State assumptions and open questions that affect behavior.
-3. `PLAN.md`: technical approach for meeting the specification: components, contracts, data, integrations, risks, design decisions, and test strategy. Ground the plan in the repository when it exists; distinguish undecided alternatives from approved decisions.
-4. `TASKS.md`: authorized work units, ordered by dependency when relevant, with observable verification. Do not decompose micro-actions or create tasks solely for document edits.
-5. A repository instruction file: repository-specific operating instructions: reading order, real commands, conventions, verification, and stop conditions. Use the filename or format recognized by the active agent, or `AGENTS.md` when no adapter requires another name. Derive it from the project; do not present generic commands as verified.
+2. Root `SPEC.md`: system problem, actors, goals, scope and exclusions, main modules and their relationships, global functional invariants, and system-wide requirements and constraints. State assumptions and open questions that affect behavior; keep detailed requirement flows and acceptance criteria local.
+3. Root `PLAN.md`: shared architecture, module responsibilities, sources of truth, shared contracts, data, integrations, technical constraints, risks, and system-wide test strategy. Ground the plan in the repository when it exists; distinguish undecided alternatives from approved decisions.
+4. For each agreed independent requirement, create `specs/REQ-001-name/SPEC.md`, `PLAN.md`, and `TASKS.md`: define scope, flows, business rules, and observable acceptance; then the approved technical solution and verification; then authorized work ordered by dependency. Use the next unused requirement number and a short descriptive name. Give tasks stable qualified IDs, such as `REQ-001/T-01`. Do not decompose micro-actions or create tasks solely for document edits.
+5. Root `TASKS.md`: index with requirement ID, brief description, folder link, and dependencies. Link the local sources; do not duplicate executable tasks or their execution statuses. The index alone does not authorize implementation.
+6. A repository instruction file: repository-specific operating instructions: selective reading order, real commands, conventions, verification, and stop conditions. Direct the agent to the global foundation and index, then the active requirement and relevant dependencies. Use the filename or format recognized by the active agent, or `AGENTS.md` when no adapter requires another name. Derive it from the project; do not present generic commands as verified.
 
-When the user chooses a multi-agent workflow, record the agreed planning, implementation, and review roles in the repository operating instructions, and give tasks stable IDs and sufficient acceptance criteria for handoff between sessions. A more capable model plans and reviews; a lower-cost model implements, according to the user's assignments. Do not hardcode model vendors or introduce an orchestrator. Use the review and correction protocol in `minimal-sdd`: one file in `reviews/` per reviewed task scope, with corrections and subsequent review rounds recorded in that same file, and task completion gated by the required review. Create review records when implementation is reviewed, not during foundation drafting.
+Create requirement folders for work with its own scope and acceptance criteria, not automatically for every module or request. A cross-module requirement may use one folder and link the affected requirements. Do not create folders for modules with no agreed work. Keep the existing folder and its specifications current when a requirement evolves, adding new tasks without reopening completed ones; Git preserves history. Small adjustments belong in the existing requirement. Fixes that restore specified behavior and refactors without functional or architectural changes do not require new folders or routine artifact edits.
+
+Use this precedence: `CONSTITUTION.md` → global `SPEC.md` and `PLAN.md` → requirement `SPEC.md` → requirement `PLAN.md` → requirement `TASKS.md` → code and tests. At each level, technical decisions must satisfy functional requirements. Local artifacts must satisfy global decisions and link them rather than copy them. If a requirement needs a global decision to change, resolve and update it first, then propagate the change to affected requirements. Repository instructions govern operation and do not duplicate product or architecture decisions.
+
+When the user chooses a multi-agent workflow, record the agreed planning, implementation, and review roles in the repository operating instructions, and give tasks qualified IDs and sufficient acceptance criteria for handoff between sessions. A more capable model plans and reviews; a lower-cost model implements, according to the user's assignments. Do not hardcode model vendors or introduce an orchestrator. Use the review and correction protocol in `minimal-sdd`: one file in root `reviews/` per reviewed task scope, including requirement IDs to prevent collisions, with corrections and subsequent review rounds recorded in that same file, and task completion gated by the required review. Create review records when implementation is reviewed, not during foundation drafting.
 
 ## Agreement points
 
