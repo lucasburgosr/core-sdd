@@ -32,6 +32,16 @@ The repository operating-instructions file governs how work is performed and is 
 
 Respect equivalent artifacts that already exist — for example ADRs, a `tasks/` directory, or distributed documentation — instead of imposing names or duplicating sources of truth.
 
+## Agent roles and permissions
+
+Roles define permissions, not model quality, vendor, or cost. One model may serve different roles in separate sessions; record assignments in the repository operating-instructions file when useful. In a single-agent workflow, explicitly identify the active role before acting; switching roles does not waive authorization or required independent review.
+
+- **Designer:** defines or recovers specifications, technical plans, and authorized tasks; may edit `SPEC.md`, `PLAN.md`, and task definitions within approved decisions. Does not implement by default.
+- **Implementer:** changes code and tests only within authorized tasks; may update task status and concise implementation notes/evidence, and append correction evidence to an existing review. Must not edit `SPEC.md`, `PLAN.md`, task scope, or acceptance criteria. Escalate material contradictions or new decisions instead of silently resolving them.
+- **Reviewer:** independently checks implementation against each applicable acceptance criterion, plans, and regression risks; maintains review findings and verdicts and updates task review status. May revise specifications or task definitions only to capture an authorized decision or rectify a verified inconsistency; escalate new product/architecture choices to the user or designer. Does not modify implementation by default.
+
+Editing permission is not decision authority. New or changed requirements, material architectural choices, and difficult-to-reverse policies require authorization regardless of role. Role exceptions must be explicit; an implementer cannot self-approve a review required to close a task.
+
 ## Requirement lifecycle and compatibility
 
 The default layout is a global foundation at the root and `SPEC.md`, `PLAN.md`, and `TASKS.md` under `specs/REQ-<number>-<name>/` for each independent requirement. Choose the next unused requirement number and a short descriptive name; keep its ID stable. Create a folder when the work has its own scope and acceptance criteria, not for every request or module. A cross-module requirement has its own folder and links the other requirements it affects.
@@ -39,6 +49,22 @@ The default layout is a global foundation at the root and `SPEC.md`, `PLAN.md`, 
 Keep the existing folder and its specifications current when that requirement evolves. Add new tasks for later work without reopening completed tasks; Git preserves specification history. Fold small adjustments into the existing requirement. Bug fixes that restore specified behavior and refactors without functional or architectural changes retain the exceptions below and do not require a new folder or routine artifact edits.
 
 Existing projects may migrate gradually. Move each decision or task once, replacing its former content with a link. Preserve pending work, task IDs, review links, and verification evidence. During partial migration, the root index must identify both migrated requirements and the exact legacy sections that still own work; it must not duplicate their tasks. Qualify legacy task references with the new requirement ID when needed for disambiguation without renumbering the original tasks. Never discard completed-work evidence or force a migration to perform a small change.
+
+## Compact tasks and states
+
+The requirement `TASKS.md` starts with a compact index; use qualified IDs in references (`REQ-001/T-03`) and short local IDs in its own table when unambiguous:
+
+```markdown
+| ID | Task | Status | Depends on |
+| --- | --- | --- | --- |
+| T-01 | Create user persistence | DONE | — |
+| T-02 | Implement login endpoint | IN_REVIEW | T-01 |
+| T-03 | Validate tokens | TODO | T-02 |
+```
+
+Expand only tasks needing more direction, using a concise `## T-03 — Validate tokens` section with `Scope`, `Acceptance` (links to criteria in `SPEC.md`), and `Verification` (how to demonstrate completion). Add implementation notes or review links only when relevant. Do not restate specifications, plans, or long histories. If acceptance criteria lack IDs, cite a stable heading or short description; do not manufacture IDs solely for formatting. Preserve existing equivalent task conventions when migrating.
+
+Task states: `TODO` (authorized, not started), `IN_PROGRESS` (implementing), `IN_REVIEW` (submitted for required review), `BLOCKED` (material impediment or blocking findings), `DONE` (verification complete and required review passed). An implementer may move tasks among the first four states and record evidence, but cannot mark a review-required task `DONE` before reviewer approval. Without required independent review, mark `DONE` after agreed verification. A reviewer may set `BLOCKED`, `IN_REVIEW`, or `DONE` according to the verdict. Keep status in the requirement task record; the root index does not track execution.
 
 ## Workflow
 
@@ -54,28 +80,29 @@ Ask the user for a decision only when ambiguity changes scope, behavior, data, a
 
 ## Multi-agent implementation and review
 
-When the user chooses a multi-agent workflow, use these roles: a more capable model plans and defines tasks, a lower-cost model implements them, and the planning agent reviews the implementation. Respect the user's model assignments and the active agent's capabilities; roles can run in separate sessions and do not require automatic orchestration.
+Assign Designer, Implementer, and Reviewer explicitly when using multiple agents; respect user assignments without assuming that model capability or price determines role. Roles may operate in separate sessions; no orchestrator is required.
 
-The planner leaves qualified task IDs, scope, dependencies, acceptance criteria, and verification in the requirement's `TASKS.md` or its existing equivalent. The implementer reads those tasks and the applicable global and local artifacts, implements only the authorized scope, and records what changed, what was verified, and any limitations for the reviewer. Implementation alone does not complete a task whose review is required.
+The designer leaves authorized qualified task IDs, dependencies, links to applicable acceptance criteria, and verification guidance. The implementer reads the applicable artifacts, implements only authorized work, and records concise evidence and limitations in the task entry or existing review. Implementation alone does not complete a task whose review is required.
 
 ### Review record
 
 When asked to review implemented tasks, inspect the actual code, its callers, and relevant tests against the applicable artifacts. Create `reviews/` in the target project and write the review there, including when no findings are identified. Respect an existing review convention if the repository already defines one.
 
-Use one file per reviewed scope: `reviews/review-req-001-t12-t15.md` for `REQ-001/T-12` through `REQ-001/T-15`, or `reviews/review-req-001-t12.md` for one task. Include every requirement ID when reviewing across requirements, for example `reviews/review-req-001-t01-req-002-t01.md`. For nonconsecutive tasks, list their IDs in the filename and explicitly list the qualified tasks in the report; do not imply that intervening tasks were reviewed. Reuse the same file for corrections and subsequent reviews of that scope, including existing legacy reports. Do not create a new file for each round or overwrite earlier evidence.
+Use one stable file per reviewed scope: `reviews/REQ-001-T03.md` for a small review or `reviews/REV-004.md` for a broad/nonconsecutive or cross-requirement scope. Explicitly list every qualified task in the report; a filename never implies that intervening tasks were reviewed. Reuse existing legacy review files and the same file for corrections and subsequent rounds; never erase earlier evidence.
 
 Keep the report concise and actionable:
 
-- **Scope and verdict:** task IDs, reviewed implementation reference (commit when available, otherwise the working tree), and whether the review passes or requires corrections.
-- **Findings:** stable ID such as `R-01`, affected task, severity, file/symbol or line reference, problem, impact, required correction, and status. Distinguish blocking findings from optional suggestions using the repository's rules; otherwise, unmet acceptance criteria and correctness, security, or data-loss defects block completion.
-- **Verification:** checks actually performed, results, and anything not checked. Passing tests alone do not establish acceptance.
+- **Scope and verdict:** qualified task IDs, implementation reference (commit when available, otherwise working tree), and `PASS`, `CHANGES_REQUIRED`, or `NOT_VERIFIED`.
+- **Acceptance:** evaluate **each applicable acceptance criterion** as `PASS`, `FAIL`, or `NOT_VERIFIED`, with concise evidence or a reason it could not be checked. Reference stable criterion IDs if present, otherwise headings or descriptions. `PASS` requires every applicable criterion to pass and no open blocking findings. Passing tests alone is insufficient. An unverified applicable criterion prevents `PASS` unless an authorized decision explicitly changes verification expectations.
+- **Findings:** stable ID such as `R-01`, affected task/criterion, blocking or optional severity, location, problem, impact, required correction, and state `OPEN`, `AWAITING_REVIEW`, or `CLOSED`. By default, unmet acceptance criteria and correctness, security, or data-loss defects are blocking.
+- **Verification:** checks actually performed and results, including regression risks and limitations relevant to the change; distinguish test execution from evidence that observable acceptance is met.
 - **Rounds:** append dated correction and re-review entries with the implementation reference, finding IDs addressed, evidence, remaining findings, and current verdict. Preserve prior entries; update the current verdict and finding statuses to reflect the latest reviewed state. State explicitly when there are no findings.
 
 ### Correction loop and completion
 
-When asked to apply corrections, the implementer reads the review and fixes the blocking findings within the authorized task scope. Record the changes and verification in the same review file, marking findings as awaiting reviewer verification. The reviewer checks those changes, closes resolved findings or explains why they remain open, and appends the next review round to that file. Keep finding IDs stable across rounds and assign new IDs only to new findings.
+When asked to apply corrections, the implementer reads the review and fixes the blocking findings within the authorized task scope. Append changes and verification to the same review file without changing the reviewer's verdict or closing findings; mark addressed findings `AWAITING_REVIEW`. The reviewer checks those changes, closes resolved findings or explains why they remain open, and appends the next review round to that file. Keep finding IDs stable across rounds and assign new IDs only to new findings.
 
-Repeat this handoff until the required review passes. Keep the affected tasks pending while blocking findings remain or fixes await review. Link the review from the relevant requirement task entries rather than duplicating its findings in `TASKS.md`. If a correction requires a new product or architecture decision, update the affected source of truth before implementation; a review does not authorize unrelated work.
+Repeat this handoff until the required review passes. Keep affected tasks `BLOCKED` while blocking findings remain, or `IN_REVIEW` while fixes await reviewer verification. Link the review from the relevant requirement task entries rather than duplicating its findings in `TASKS.md`. If a correction requires a new product or architecture decision, update the affected source of truth before implementation; a review does not authorize unrelated work.
 
 ## Minimal update matrix
 
@@ -106,9 +133,9 @@ Rows are cumulative: update every artifact whose source of truth changes, not on
 
 ## Boundaries and completion
 
-This skill governs changes on top of an existing artifact foundation. If the project lacks a sufficient definition or begins from an idea, use `sdd-foundation` before implementation. Do not fill artifacts by routine to unblock a small change in a mature repository: preserve existing equivalents and ask only for the material decision that is missing.
+This skill governs changes on top of a sufficiently defined foundation for the **affected scope**. If a project begins from an idea or its affected requirements cannot be identified or verified, use `sdd-foundation` to define or recover that scope first; unrelated unknowns need not block well-defined work. Do not fill artifacts by routine to unblock a small change in a mature repository: preserve existing equivalents and ask only for the material decision that is missing.
 
-Use the active requirement's `TASKS.md`, or its identified legacy equivalent, as the boundary of authorized work. An entry in the root index alone does not authorize implementation. Do not introduce unrequested features, architecture decisions, or unrelated improvements. Mark a task as `DONE` only after its agreed verification and any required review pass.
+Use the active requirement's `TASKS.md`, or its identified legacy equivalent, as the boundary of authorized work. An entry in the root index alone does not authorize implementation. Do not introduce unrequested features, architecture decisions, or unrelated improvements. Mark a task as `DONE` only after its agreed verification and any required review pass. Follow the role permissions above when updating documents or status.
 
 At completion, report concisely:
 
